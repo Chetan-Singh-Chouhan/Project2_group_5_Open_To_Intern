@@ -1,6 +1,2 @@
-# Project2_group_5_Open_To_Intern
-Project 2 open to intern
-
-
-paras is added in project 2
-378ywekhs
+# californium
+Californium cohort (Nov 2022 - Mar 2023)
