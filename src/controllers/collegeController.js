@@ -1,7 +1,7 @@
 const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
-const { isValid, unabbreviated, link, email, mobile, id, linkValid } = require("../validation/validation");
+const { isValid, unabbreviated, link} = require("../validation/validation");
 const valid = require('../validation/validation')
 
 const createCollege = async function(req,res){
@@ -28,7 +28,7 @@ const createCollege = async function(req,res){
         return res.status(400).send({status : false, message : "fullName is required & needs to be valid "})
     }
     else if(!valid.name(fullName)){
-        return res.status(400).send({status : false, msg : "invalid fullName"})
+        return res.status(400).send({status : false, message : "invalid fullName"})
     }
 
 
@@ -57,23 +57,33 @@ const getCollegeDetails = async function (req, res) {
                 message: "There is no parametes in Query parameter"
             })
         const college = await collegeModel.findOne({ name: collegeName })
+    
         if (!college)
             return res.status(404).send({
                 status: false,
                 message: "There is no such college exist"
             })
-        let listOfIntern = await internModel.find({ collegeId: college._id }).select({ __v: 0, collegeId: 0, isDeleted: 0 })
-        if (listOfIntern.length == 0) listOfIntern="There is intern from this college";
-            
-            
+        const listOfIntern = await internModel.find({ collegeId: college._id }).select({ __v: 0, collegeId: 0, isDeleted: 0 })
         const { name, fullName, logoLink } = college
+        if (listOfIntern.length == 0)
+            return res.status(200).send({
+                status: true,
+                data:{
+                    "name": name,
+                    "fullName": fullName,
+                    "logoLink": logoLink,
+                    "Interns" : "There is no intern in this college"
+                }
+               
+            })
+        
         return res.status(200).send({
             data: {
                 "name": name,
                 "fullName": fullName,
                 "logoLink": logoLink,
                 "No. of Interns": listOfIntern.length,
-                "interns": listOfIntern
+                "Interns": listOfIntern
 
             }
         })
