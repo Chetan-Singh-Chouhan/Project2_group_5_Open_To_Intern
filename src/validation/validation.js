@@ -24,7 +24,7 @@ const name = function (name) {
 }
 
 const link = function (link) {
-    return /^(https:\/\/|http:\/\/|www\.)[A-Za-z_\-#$%=+\.]+\.[a-z]{2,5}\/+(\.png)/.test(link);
+    return /^(https:\/\/|http:\/\/|www\.)(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(png)$/.test(link);
 }
 
 const email = function (email) {

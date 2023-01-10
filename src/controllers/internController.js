@@ -1,23 +1,25 @@
-const internModel = require('../models/internModel')
-
+const internModel = require('../models/internModel');
+const collegeModel = require('../models/collegeModel');
+const validator = require('../validation/validation');
 const createIntern = async function (req, res) {
     try {
         let data = req.body;
+        Object.keys(data).forEach(x=>data[x]=data[x].toString().trim());
         let { name, email, mobile, collegeName } = data;
         if (!name) return res.status(400).send({ status: false, message: "Please enter your name." });
         name = name.trim();
-        if (!isValid.name(name)) return res.status(400).send({ status: false, message: "Please enter a valid name." });
+        if (!validator.name(name)) return res.status(400).send({ status: false, message: "Please enter a valid name." });
         if (!collegeName) return res.status(400).send({ status: false, message: "Please enter college name." });
         collegeName = collegeName.trim();
-        if (!isValid.unabbreviated(collegeName)) return res.status(400).send({ status: false, message: "Please enter a valid unabbreviated college name." });
+        if (!validator.unabbreviated(collegeName)) return res.status(400).send({ status: false, message: "Please enter a valid unabbreviated college name." });
         const college = await collegeModel.findOne({ name: collegeName.toLowerCase(), isDeleted: false });
         if (!college) return res.status(404).send({ status: false, message: "This college does not exist." });
         if (!email) return res.status(400).send({ status: false, message: "Please enter email address." });
         email = email.trim();
-        if (!isValid.email(email)) return res.status(400).send({ status: false, message: "Please enter a valid email address." });
+        if (!validator.email(email)) return res.status(400).send({ status: false, message: "Please enter a valid email address." });
         if (!mobile) return res.status(400).send({ status: false, message: "Please enter mobile number" });
         mobile = mobile.trim();
-        if (!isValid.mobile(mobile)) return res.status(400).send({ status: false, message: "Please enter 10 digit valid mobile number." });
+        if (!validator.mobile(mobile)) return res.status(400).send({ status: false, message: "Please enter 10 digit valid mobile number." });
         const intern = await internModel.findOne({ $or: [{ mobile: mobile }, { email: email }] });
         if (intern) {
             if (intern.email == email) return res.status(400).send({ status: false, message: "This email is already in use." });
