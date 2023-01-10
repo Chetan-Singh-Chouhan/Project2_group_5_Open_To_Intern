@@ -45,7 +45,7 @@ const getCollegeDetails = async function (req, res) {
                 status: false,
                 message: "There is no parametes in Query parameter"
             })
-        const college = await collegeModel.findOne({ name: collegeName })
+        const college = await collegeModel.findOne({ name: collegeName.toLowerCase() })
         if (!college)
             return res.status(404).send({
                 status: false,
