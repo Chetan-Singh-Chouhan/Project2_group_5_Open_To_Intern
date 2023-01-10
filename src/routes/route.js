@@ -5,9 +5,12 @@ const {createIntern}= require('../controllers/internController')
 
 
 router.get('/functionup/collegeDetails',getCollegeDetails)
+
+
+router.post("/functionup/colleges", createCollege)
 module.exports=router
 
 //paras
 
-const College = require("../Controller/commonController")
-router.post("/functionup/colleges",College.createCollege)
+// const college = require("../controllers/collegeController")
+// router.post("/functionup/colleges",college.createCollege)

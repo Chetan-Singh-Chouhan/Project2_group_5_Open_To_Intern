@@ -1,8 +1,8 @@
 const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
-const CollegeModel = require("../Model/CollegeModel")
-const validation = require("../validatior/validation")
+
+const validation = require("../validation/validation")
 
 const createCollege = async function(req,res){
     try{
@@ -18,7 +18,7 @@ const createCollege = async function(req,res){
         }
         return res.status(400).send({status : false , msg: "name is required "})
     }else{
-        let find = await CollegeModel.findOne({name : name})
+        let find = await collegeModel.findOne({name : name})
         if(find) return res.send({status : false , msg: "name needs to be unique"})
     }
  
@@ -34,7 +34,7 @@ const createCollege = async function(req,res){
     }
 
     
-    let savedata = await CollegeModel.create(data)
+    let savedata = await collegeModel.create(data)
     res.status(201).send({status : true , data : savedata})
     }
     catch(err){
@@ -73,5 +73,5 @@ const getCollegeDetails = async function(req,res){
 
 
 
-module.exports.createCollege = createCollege
-module.exports = { getCollegeDetails }
+// module.exports.createCollege = createCollege
+module.exports = { getCollegeDetails,createCollege }
