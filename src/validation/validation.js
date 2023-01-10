@@ -1,16 +1,43 @@
+const { isValidObjectId } = require('mongoose');
 
 const isValid = (value) => {
     if (typeof value === "undefined" || value === null) {
-          return false
+        return false
     }
     if (typeof value === "string" && value.trim().length > 0) {
-          return true
+        return true
     }
 }
 
-const name = function(value){
-    const regex = /^[a-zA-Z ]{2,30}$/
-    return regex.test(value)
+
+// const name = function(value){
+//     const regex = /^[a-zA-Z ]{2,30}$/
+//     return regex.test(value)
+// }
+
+const unabbreviated = function (name) {
+    return /^[A-Za-z]{2,8}$/.test(name);
 }
-module.exports.isValid = isValid
-module.exports.name = name
+
+const name = function (name) {
+    return /^[A-Za-z\s]{2,20}$/.test(name);
+}
+
+const link = function (link) {
+    return /^(https:\/\/|http:\/\/|www\.)[A-Za-z_\-#$%=+\.]+\.[a-z]{2,5}\/+(\.png)/.test(link);
+}
+
+const email = function (email) {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+}
+
+const mobile = function (mobile) {
+    if (isNaN(mobile)) return false;
+    return /^[0-9]{10,10}/.test(mobile);
+}
+
+const id = function (id) {
+    return isValidObjectId(id);
+}
+
+module.exports = { isValid, unabbreviated, name, link, email, mobile, id }

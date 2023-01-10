@@ -2,7 +2,7 @@ const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
 
-const validation = require("../validation/validation")
+const { isValid, unabbreviated, name, link, email, mobile, id } = require("../validation/validation");
 
 const createCollege = async function(req,res){
     try{
@@ -12,8 +12,8 @@ const createCollege = async function(req,res){
 
     const {name,fullName,logoLink} = data
         
-    if(!validation.isValid(name)) {
-        if(!validation.name(name)){
+    if(!isValid(name)) {
+        if(!unabbreviated(name)){
             return res.status(400).send({status : false, msg : "invalid name"})
         }
         return res.status(400).send({status : false , msg: "name is required "})
@@ -22,8 +22,8 @@ const createCollege = async function(req,res){
         if(find) return res.send({status : false , msg: "name needs to be unique"})
     }
  
-    if(!validation.isValid(fullName)){
-        if(!validation.name(fullName)){
+    if(!isValid(fullName)){
+        if(!name(fullName)){
             return res.status(400).send({status : false, msg : "invalid fullName"})
         }
         return res.status(400).send({status : false, msg : "fullName is required"})
@@ -31,6 +31,10 @@ const createCollege = async function(req,res){
 
     if(!logoLink){
         return res.status(400).send({status : false, msg: "logoLink is required"})
+    }
+
+    if(!link(logoLink)){
+        return res.status(400).send({status:false,msg: "Please enter valid logo link."})
     }
 
     
