@@ -10,17 +10,16 @@ const isValid = (value) => {
 }
 
 
-// const name = function(value){
-//     const regex = /^[a-zA-Z ]{2,30}$/
-//     return regex.test(value)
-// }
-
+const linkValid = function(value){
+    const regex = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i
+    return regex.test(value)
+}
 const unabbreviated = function (name) {
     return /^[A-Za-z]{2,8}$/.test(name);
 }
 
 const name = function (name) {
-    return /^[A-Za-z\s]{2,20}$/.test(name);
+    return /^[A-Za-z\s]{2,40}$/.test(name);
 }
 
 const link = function (link) {
@@ -40,4 +39,4 @@ const id = function (id) {
     return isValidObjectId(id);
 }
 
-module.exports = { isValid, unabbreviated, name, link, email, mobile, id }
+module.exports = { isValid, unabbreviated, name, link, email, mobile, id , linkValid}
