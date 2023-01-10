@@ -1,7 +1,6 @@
 const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 
-
 const { isValid, unabbreviated, name, link, email, mobile, id } = require("../validation/validation");
 
 const createCollege = async function(req,res){
@@ -46,21 +45,29 @@ const createCollege = async function(req,res){
     }
 }
 
-
-const getCollegeDetails = async function(req,res){
-    try{
-        const {collegeName}=req.query
-        
-        if(Object.keys(req.query)!='collegeName') return res.send("There is no parametes in Query parameter")
-        const college = await collegeModel.findOne({name:collegeName})
-        if(!college)
-           return res.status(404).send("There is no such college")
-        const listOfIntern = await internModel.find({collegeId:college._id}).select({__v:0,collegeId:0,isDeleted:0})
-        if(listOfIntern.length==0) 
-          return res.status(404).send("There is no intern in this college")
-        const {name,fullName,logoLink} = college
+const getCollegeDetails = async function (req, res) {
+    try {
+        const { collegeName } = req.query
+        if (Object.keys(req.query) != 'collegeName')
+            return res.status(400).send({
+                status: false,
+                message: "There is no parametes in Query parameter"
+            })
+        const college = await collegeModel.findOne({ name: collegeName })
+        if (!college)
+            return res.status(404).send({
+                status: false,
+                message: "There is no such college exist"
+            })
+        const listOfIntern = await internModel.find({ collegeId: college._id }).select({ __v: 0, collegeId: 0, isDeleted: 0 })
+        if (listOfIntern.length == 0)
+            return res.status(404).send({
+                status: false,
+                message: "There is no intern in this college"
+            })
+        const { name, fullName, logoLink } = college
         return res.status(200).send({
-            data:{
+            data: {
                 "name": name,
                 "fullName": fullName,
                 "logoLink": logoLink,
@@ -70,12 +77,12 @@ const getCollegeDetails = async function(req,res){
             }
         })
     }
-    catch{
-        return res.status(500).send("Server Side Error")
+    catch {
+        return res.status(500).send({
+            status: false,
+            message: "Server Side Error"
+        })
     }
-}  
+}
 
-
-
-// module.exports.createCollege = createCollege
 module.exports = { getCollegeDetails,createCollege }
