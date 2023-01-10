@@ -9,7 +9,6 @@ const createIntern = async function (req, res) {
         if (!name) return res.status(400).send({ status: false, message: "Please enter your name." });
         if (!validator.name(name)) return res.status(400).send({ status: false, message: "Please enter a valid name." });
         if (!collegeName) return res.status(400).send({ status: false, message: "Please enter college name." });
-        collegeName = collegeName.trim();
         if (!validator.unabbreviated(collegeName)) return res.status(400).send({ status: false, message: "Please enter a valid unabbreviated college name." });
         const college = await collegeModel.findOne({ name: collegeName.toLowerCase(), isDeleted: false });
         if (!college) return res.status(404).send({ status: false, message: "This college does not exist." });
