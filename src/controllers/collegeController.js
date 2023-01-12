@@ -1,6 +1,6 @@
 const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
-const { isValid, unabbreviated, link } = require("../validation/validation");
+const { isValid, unabbreviated, link,Cname } = require("../validation/validation");
 const valid = require('../validation/validation')
 
 const createCollege = async function (req, res) {
@@ -9,7 +9,7 @@ const createCollege = async function (req, res) {
         if (data) { if (Object.keys(data).length === 0) return res.status(400).send({ status: false, message: "Data is required" }) }
         const { name, fullName, logoLink } = data
         if (!isValid(name)) {
-            return res.status(400).send({ status: false, msg: "name is required"})
+            return res.status(400).send({ status: false, msg: "name is required" })
         } else if (!unabbreviated(name)) {
             return res.status(400).send({ status: false, message: "invalid name" })
         } else {
@@ -19,7 +19,7 @@ const createCollege = async function (req, res) {
         if (!isValid(fullName)) {
             return res.status(400).send({ status: false, message: "fullName is required & needs to be valid " })
         }
-        else if (!valid.name(fullName)) {
+        else if (!valid.Cname(fullName)) {
             return res.status(400).send({ status: false, message: "invalid fullName" })
         }
         if (!logoLink) {

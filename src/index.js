@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const route = require('./routes/route')
 const app = express()
 const mongoose= require('mongoose')
-mongoose.set("strictQuery", false)
+// mongoose.set("strictQuery", false)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 mongoose.connect("mongodb+srv://Chetan_ProjectClustor:PNr1Fn8OcRu2cGmk@project1.h4p8xqh.mongodb.net/group5Database",{useNewUrlParser:true})
@@ -13,3 +13,5 @@ app.use('/',route)
 app.listen(process.env.PORT || 3000, function(){
       console.log('Express app running on port ' + (process.env.PORT|| 3000))
 })
+
+

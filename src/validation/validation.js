@@ -19,7 +19,10 @@ const unabbreviated = function (name) {
 }
 
 const name = function (name) {
-    return /^[A-Za-z\s]{2,40}$/.test(name);
+    return /^[A-Za-z\s]{2,25}$/.test(name);
+}
+const Cname = function (name) {
+    return /^[A-Za-z\s,]{2,40}$/.test(name);
 }
 
 const link = function (link) {
@@ -39,4 +42,4 @@ const id = function (id) {
     return isValidObjectId(id);
 }
 
-module.exports = { isValid, unabbreviated, name, link, email, mobile, id , linkValid}
+module.exports = { isValid, unabbreviated, name, link, email, mobile, id , linkValid,Cname}
